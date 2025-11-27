@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 namespace Cadar_Raul_Lab4
 {
     public partial class PricePredictionModel
@@ -23,14 +24,17 @@ namespace Cadar_Raul_Lab4
             [ColumnName(@"rate_code")]
             public float Rate_code { get; set; }
 
+            [Range(1, 6, ErrorMessage = "Numărul de pasageri trebuie să fie între 1 și 6.")]
             [LoadColumn(2)]
             [ColumnName(@"passenger_count")]
+
             public float Passenger_count { get; set; }
 
             [LoadColumn(3)]
             [ColumnName(@"trip_time_in_secs")]
             public float Trip_time_in_secs { get; set; }
 
+            [Range(0.1, 1000, ErrorMessage = "Distanța trebuie să fie pozitivă.")]
             [LoadColumn(4)]
             [ColumnName(@"trip_distance")]
             public float Trip_distance { get; set; }
