@@ -14,6 +14,13 @@ namespace Cadar_Raul_Lab4.Controllers
         {
             _context = context;
         }
+        [HttpGet]
+        public IActionResult Price()
+        {
+            return View(new PricePredictionModel.ModelInput());
+        }
+        [HttpPost]
+
         public async Task<IActionResult> Price(PricePredictionModel.ModelInput input)
         {
             // Load the model
@@ -27,17 +34,27 @@ namespace Cadar_Raul_Lab4.Controllers
             PricePredictionModel.ModelOutput result = predEngine.Predict(input);
             ViewBag.Price = result.Score;
 
-            var history = new PredictionHistory
+            if (!string.IsNullOrEmpty(input.Payment_type))
             {
-                PassengerCount = input.Passenger_count,
-                TripTimeInSecs = input.Trip_time_in_secs,
-                TripDistance = input.Trip_distance,
-                PaymentType = input.Payment_type ?? "N/A",
-                PredictedPrice = result.Score,
-                CreatedAt = DateTime.Now
-            };
-            _context.PredictionHistories.Add(history);
-            await _context.SaveChangesAsync();
+
+                var history = new PredictionHistory
+                {
+                    PassengerCount = input.Passenger_count,
+                    TripTimeInSecs = input.Trip_time_in_secs,
+                    TripDistance = input.Trip_distance,
+                    PaymentType = input.Payment_type ?? "N/A",
+                    PredictedPrice = result.Score,
+                    CreatedAt = DateTime.Now
+                };
+                _context.PredictionHistories.Add(history);
+                await _context.SaveChangesAsync();
+                ViewBag.HistoryMessage = "Prediction saved to history.";
+            }
+
+            else
+            {
+                ViewBag.HistoryMessage = "Prediction not saved due to missing Payment Type.";
+            }
 
             return View(input);
         }
