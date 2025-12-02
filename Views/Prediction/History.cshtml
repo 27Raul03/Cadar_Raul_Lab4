@@ -41,9 +41,9 @@
         <label class="form-label">Tip plată</label>
         <select name="paymentType" class="form-select">
             <option value="">Toate</option>
-            <option value="CARD" selected="@(ViewBag.CurrentPaymentType == "CRD")">Card</option>
-            <option value="CASH" selected="@(ViewBag.CurrentPaymentType == "CSH")">Cash</option>
-            <option value="OTHER" selected="@(ViewBag.CurrentPaymentType == "OTHER")">Altele</option>
+            <option value="CRD" selected="@(ViewBag.PaymentType == "CRD")">Card</option>
+            <option value="CSH" selected="@(ViewBag.PaymentType == "CSH")">Cash</option>
+            <option value="OTHER" selected="@(ViewBag.PaymentType == "OTHER")">Altele</option>
         </select>
     </div>
     <div class="col-md-2">
