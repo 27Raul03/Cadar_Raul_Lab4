@@ -58,13 +58,48 @@ namespace Cadar_Raul_Lab4.Controllers
 
             return View(input);
         }
-        public async Task<IActionResult> History()
+        //public async Task<IActionResult> History()
+        //{
+        //    var history = await _context.PredictionHistories
+        //    .OrderByDescending(p => p.CreatedAt)
+        //    .ToListAsync();
+        //    return View(history);
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> History(
+            string? paymentType,
+            float? minPrice,
+            float? maxPrice,
+            string? sortOrder)
         {
-            var history = await _context.PredictionHistories
-            .OrderByDescending(p => p.CreatedAt)
-            .ToListAsync();
-            return View(history);
+            var query = _context.PredictionHistories.AsQueryable();
+            if (!string.IsNullOrEmpty(paymentType))
+            {
+                query = query.Where(p => p.PaymentType == paymentType);
+            }
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.PredictedPrice >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.PredictedPrice <= maxPrice.Value);
+            }
+            query = sortOrder switch
+            {
+                "price_asc" => query.OrderBy(p => p.PredictedPrice),
+                "price_desc" => query.OrderByDescending(p => p.PredictedPrice),
+                _ => query.OrderBy(p => p.PredictedPrice) //sortare default
+            };
+            ViewBag.CurrentPaymentType = paymentType;
+            ViewBag.CurrentMinPrice = minPrice;
+            ViewBag.CurrentMaxPrice = maxPrice;
+            ViewBag.CurrentSortOrder = sortOrder;
+            var result = await query.ToListAsync();
+            return View(result);
         }
+
         public IActionResult Time(DurationPredictionModel.ModelInput input)
         {
             // Load the model

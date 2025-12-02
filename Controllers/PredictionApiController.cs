@@ -18,6 +18,7 @@ namespace Cadar_Raul_Lab4.Controllers
             _context = context;
         }
 
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<PredictionHistory>>> GetAll()
         {
             var list = await _context.PredictionHistories
