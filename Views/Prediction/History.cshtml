@@ -3,22 +3,42 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Data</th>
+            <th>Data
+                <a asp-action="History"
+                   asp-route-paymentType="@ViewBag.CurrentPaymentType"
+                   asp-route-minPrice="@ViewBag.CurrentMinPrice"
+                   asp-route-maxPrice="@ViewBag.CurrentMaxPrice"
+                   asp-route-minDate="@ViewBag.CurrentMinDate"
+                   asp-route-maxDate="@ViewBag.CurrentMaxDate"
+                   asp-route-sortOrder="price_asc">↑</a>
+                <a asp-action="History"
+                   asp-route-paymentType="@ViewBag.CurrentPaymentType"
+                   asp-route-minPrice="@ViewBag.CurrentMinPrice"
+                   asp-route-maxPrice="@ViewBag.CurrentMaxPrice"
+                   asp-route-minDate="@ViewBag.CurrentMinDate"
+                   asp-route-maxDate="@ViewBag.CurrentMaxDate"
+                   asp-route-sortOrder="price_desc">↓</a>
+            </th>
             <th>Pasageri</th>
             <th>Distanță</th>
             <th>Timp (sec)</th>
             <th>Tip plată</th>
-            <th>Preț prezis</th>
-            <a asp-action="History"
-    asp-route-paymentType="@ViewBag.CurrentPaymentType"
-    asp-route-minPrice="@ViewBag.CurrentMinPrice"
-    asp-route-maxPrice="@ViewBag.CurrentMaxPrice"
-    asp-route-sortOrder="price_asc">↑</a>
-            <a asp-action="History"
-    asp-route-paymentType="@ViewBag.CurrentPaymentType"
-    asp-route-minPrice="@ViewBag.CurrentMinPrice"
-    asp-route-maxPrice="@ViewBag.CurrentMaxPrice"
-    asp-route-sortOrder="price_desc">↓</a>
+            <th>Preț prezis
+                <a asp-action="History"
+                   asp-route-paymentType="@ViewBag.CurrentPaymentType"
+                   asp-route-minPrice="@ViewBag.CurrentMinPrice"
+                   asp-route-maxPrice="@ViewBag.CurrentMaxPrice"
+                   asp-route-minDate="@ViewBag.CurrentMinDate"
+                   asp-route-maxDate="@ViewBag.CurrentMaxDate"
+                   asp-route-sortOrder="price_asc">↑</a>
+                <a asp-action="History"
+                   asp-route-paymentType="@ViewBag.CurrentPaymentType"
+                   asp-route-minPrice="@ViewBag.CurrentMinPrice"
+                   asp-route-maxPrice="@ViewBag.CurrentMaxPrice"
+                   asp-route-minDate="@ViewBag.CurrentMinDate"
+                   asp-route-maxDate="@ViewBag.CurrentMaxDate"
+                   asp-route-sortOrder="price_desc">↓</a>
+            </th>      
         </tr>
     </thead>
     <tbody>
@@ -57,6 +77,20 @@
         <input type="number" step="0.01" name="maxPrice"
                value="@(ViewBag.CurrentMaxPrice ?? "")"
                class="form-control" />
+    </div>
+    <div>
+    <div class="col-md-3">
+            <label class="form-label">Data minima</label>
+            <input type="date" name="minDate"
+                   value="@(ViewBag.CurrentMinDate ?? "")"
+                   class="form-control" />
+    </div>
+    <div class="col-md-3">
+                <label class="form-label">Data maxima</label>
+                <input type="date" name="maxDate"
+                       value="@(ViewBag.CurrentMaxDate ?? "")"
+                       class="form-control" />
+    </div>
     </div>
     <div class="col-md-2 align-self-end">
         <button type="submit" class="btn btn-primary">Filtrează</button>

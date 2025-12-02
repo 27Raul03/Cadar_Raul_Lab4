@@ -71,7 +71,9 @@ namespace Cadar_Raul_Lab4.Controllers
             string? paymentType,
             float? minPrice,
             float? maxPrice,
-            string? sortOrder)
+            string? sortOrder,
+            DateTime? minDate,
+            DateTime? maxDate)
         {
             var query = _context.PredictionHistories.AsQueryable();
             if (!string.IsNullOrEmpty(paymentType))
@@ -86,16 +88,28 @@ namespace Cadar_Raul_Lab4.Controllers
             {
                 query = query.Where(p => p.PredictedPrice <= maxPrice.Value);
             }
+            if (minDate.HasValue)
+            {
+                query = query.Where(p => p.CreatedAt.Date >= minDate.Value.Date);
+            }
+            if (maxDate.HasValue)
+            {
+                query = query.Where(p => p.CreatedAt.Date <= maxDate.Value.Date);
+            }
             query = sortOrder switch
             {
                 "price_asc" => query.OrderBy(p => p.PredictedPrice),
                 "price_desc" => query.OrderByDescending(p => p.PredictedPrice),
+                "date_asc" => query.OrderBy(p => p.CreatedAt),
+                "date_desc" => query.OrderByDescending(p => p.CreatedAt),
                 _ => query.OrderBy(p => p.PredictedPrice) //sortare default
             };
             ViewBag.CurrentPaymentType = paymentType;
             ViewBag.CurrentMinPrice = minPrice;
             ViewBag.CurrentMaxPrice = maxPrice;
             ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.CurrentMinDate = minDate?.ToString("yyyy-MM-dd");
+            ViewBag.CurrentMinDate = maxDate?.ToString("yyyy-MM-dd");
             var result = await query.ToListAsync();
             return View(result);
         }
