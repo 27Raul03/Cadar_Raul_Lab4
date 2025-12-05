@@ -5,6 +5,9 @@
         public int TotalPredictions { get; set; }
         public List<PaymentTypeStat> PaymentTypeStats { get; set; } = new();
         public List<PriceBucketStat> PriceBuckets { get; set; }
+
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 
     public class PaymentTypeStat
